@@ -7,8 +7,8 @@ class FullPost extends Component {
     loadedPost: null,
   };
 
-  componentDidUpdate() {
-    if (!this.props.id) return;
+  componentDidMount() {
+    if (!this.props.match.params.id) return;
 
     if (
       !(
@@ -18,7 +18,7 @@ class FullPost extends Component {
     )
       return;
 
-    axios.get(`/posts/${this.props.id}`).then((res) => {
+    axios.get(`/posts/${this.props.match.params.id}`).then((res) => {
       this.setState({
         loadedPost: res.data,
       });
@@ -35,9 +35,10 @@ class FullPost extends Component {
   render() {
     let post = <p style={{ textAlign: 'center' }}>Please select a Post!</p>;
 
-    if (this.props.id) post = <p style={{ textAlign: 'center' }}>Loading...</p>;
+    if (this.props.match.params.id)
+      post = <p style={{ textAlign: 'center' }}>Loading...</p>;
 
-    if (this.props.id && this.state.loadedPost) {
+    if (this.props.match.params.id && this.state.loadedPost) {
       post = (
         <div className="FullPost">
           <h1>{this.state.loadedPost.title}</h1>
